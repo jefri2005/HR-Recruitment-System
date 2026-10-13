@@ -324,7 +324,7 @@ $("authForm").addEventListener("submit", async event => {
 
       // Create the profile only after the user account exists.
       try {
-        await api("/candidates/", {
+        await api("/candidates/me", {
           method: "POST",
           body: JSON.stringify({
             user_id: Number(currentUser.id),
@@ -482,28 +482,29 @@ function empty(message) {
 }
 
 /* ================= CANDIDATE PROFILE LOOKUP ================= */
+
 async function getMyCandidate() {
-  if (currentCandidate) return currentCandidate;
+    try {
+        return await api("/candidates/me");
+    } catch (error) {
+        // Create a profile only when the API confirms it does not exist.
+        if (
+            error.status === 404 ||
+            String(error.message).includes("404")
+        ) {
+            const result = await api("/candidates/", {
+                method: "POST",
+                body: JSON.stringify({
+                    user_id: Number(currentUser.id),
+                    experience_years: 0
+                })
+            });
 
-  const data = await api("/candidates/");
-  const candidates = Array.isArray(data) ? data : data.candidates || [];
+            return result.candidate;
+        }
 
-  currentCandidate = candidates.find(candidate =>
-    Number(candidate.user_id) === Number(currentUser.id)
-  ) || null;
-
-  if (!currentCandidate) {
-    const result = await api("/candidates/", {
-      method: "POST",
-      body: JSON.stringify({
-        user_id: Number(currentUser.id),
-        experience_years: 0
-      })
-    });
-    currentCandidate = result.candidate;
-  }
-
-  return currentCandidate;
+        throw error;
+    }
 }
 
 async function getCompletion(candidate) {

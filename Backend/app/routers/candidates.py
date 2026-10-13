@@ -293,6 +293,35 @@ def get_candidates(
 
 
 # --------------------------------------------------
+# GET THE LOGGED-IN CANDIDATE'S OWN PROFILE
+# GET /candidates/me
+# --------------------------------------------------
+
+@router.get("/me")
+def get_my_candidate_profile(
+    current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db)
+):
+    if current_user.role != "CANDIDATE":
+        raise HTTPException(
+            status_code=403,
+            detail="Only candidates can access this endpoint"
+        )
+
+    candidate = db.query(Candidate).filter(
+        Candidate.user_id == current_user.id
+    ).first()
+
+    if candidate is None:
+        raise HTTPException(
+            status_code=404,
+            detail="Candidate profile not found. Create your profile first."
+        )
+
+    return candidate
+
+
+# --------------------------------------------------
 # GET PROFILE COMPLETION
 # GET /candidates/{candidate_id}/completion
 # HR or the profile owner.
@@ -382,6 +411,33 @@ def update_candidate(
             status_code=400,
             detail="Invalid profile information"
         )
+
+    
+@router.get("/me")
+def get_my_candidate(
+    db: Session = Depends(get_db),
+    current_user=Depends(get_current_user),
+):
+    # Only candidates can access this endpoint
+    if current_user.role.upper() != "CANDIDATE":
+        raise HTTPException(
+            status_code=403,
+            detail="Only candidates can access their own profile"
+        )
+
+    candidate = (
+        db.query(Candidate)
+        .filter(Candidate.user_id == current_user.id)
+        .first()
+    )
+
+    if not candidate:
+        raise HTTPException(
+            status_code=404,
+            detail="Candidate profile not found. Create your profile first."
+        )
+
+    return candidate
 
 
 # --------------------------------------------------
