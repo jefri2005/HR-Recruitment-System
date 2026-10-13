@@ -1,682 +1,1194 @@
 
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>HR Recruitment Management System</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TalentBridge | HR Recruitment System</title>
+
 <style>
-:root{--ink:#172033;--muted:#687386;--line:#e2e7ef;--brand:#335cff;--bg:#f5f7fb;--good:#137a52;--bad:#b42318}
-*{box-sizing:border-box}
-body{margin:0;font:15px/1.5 Inter,Segoe UI,Arial,sans-serif;background:var(--bg);color:var(--ink)}
-header{background:#fff;border-bottom:1px solid var(--line);padding:16px max(20px,calc((100vw - 1200px)/2));display:flex;align-items:center;justify-content:space-between;gap:16px;position:sticky;top:0;z-index:5}
-.brand{font-weight:800;font-size:18px}.brand span{color:var(--brand)}
-.wrap{max-width:1200px;margin:24px auto;padding:0 18px}
-.card{background:#fff;border:1px solid var(--line);border-radius:14px;padding:20px;margin-bottom:18px;box-shadow:0 4px 16px #16213b08}
-h1,h2,h3{margin:0 0 12px}h1{font-size:28px}h2{font-size:20px}h3{font-size:16px}
-.muted{color:var(--muted)}.hidden{display:none!important}
-button,.btn{border:0;background:var(--brand);color:white;padding:10px 14px;border-radius:9px;font-weight:650;cursor:pointer;font-size:14px}
-button.secondary{background:#edf1ff;color:#2445cf}button.danger{background:#fff0ef;color:var(--bad)}button.ghost{background:#f0f2f6;color:var(--ink)}
-button:disabled{opacity:.5;cursor:not-allowed}
-input,select,textarea{width:100%;padding:10px 11px;border:1px solid #ccd4e1;border-radius:8px;font:inherit;background:white;color:var(--ink)}
-textarea{min-height:90px;resize:vertical}
-label{display:block;font-size:13px;font-weight:650;margin-bottom:5px}
-.field{min-width:0}.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:13px}
-.grid.three{grid-template-columns:repeat(3,minmax(0,1fr))}.wide{grid-column:1/-1}
-.actions{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
-.tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:18px}
-.tabs button{background:#e9edf5;color:#3e4960}.tabs button.active{background:var(--brand);color:white}
-.stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
-.stat{padding:16px;background:#f8faff;border:1px solid var(--line);border-radius:12px}
-.stat b{font-size:25px;display:block}
-.pill{display:inline-block;padding:3px 8px;border-radius:99px;background:#edf1f8;font-size:12px;font-weight:700}
-.pill.ACTIVE,.pill.SELECTED,.pill.HIRED,.pill.SHORTLISTED{background:#e3f8ed;color:#146b45}
-.pill.REJECTED,.pill.CLOSED,.pill.WITHDRAWN{background:#ffebe9;color:#a3261d}
-.pill.DRAFT,.pill.APPLIED,.pill.UNDER_REVIEW,.pill.INTERVIEW_SCHEDULED{background:#fff4d6;color:#7c5a00}
-.list{display:grid;gap:12px}.item{border:1px solid var(--line);border-radius:11px;padding:15px}
-.itemhead{display:flex;justify-content:space-between;gap:10px;align-items:start}
-.item p{margin:7px 0;white-space:pre-wrap}
-.notice{padding:11px 13px;border-radius:8px;margin-bottom:12px;background:#eef4ff;color:#2142a5}
-.notice.error{background:#fff0ef;color:var(--bad)}.notice.success{background:#e8f8ef;color:var(--good)}
-.tablewrap{overflow:auto}table{width:100%;border-collapse:collapse;font-size:14px}
-th,td{text-align:left;border-bottom:1px solid var(--line);padding:10px;vertical-align:top}
-th{color:var(--muted);font-size:12px;text-transform:uppercase}
-.small{font-size:12px}.top-actions{display:flex;align-items:center;gap:10px}
-.authbox{max-width:520px;margin:7vh auto}.authswitch{display:flex;gap:8px;margin:12px 0}
-.empty{padding:22px;text-align:center;color:var(--muted)}
-.progress{height:8px;background:#e6eaf1;border-radius:99px;overflow:hidden;margin:8px 0}
-.progress div{height:100%;background:var(--brand)}
-.divider{border:0;border-top:1px solid var(--line);margin:16px 0}
-@media(max-width:760px){.grid,.grid.three{grid-template-columns:1fr}.stats{grid-template-columns:repeat(2,minmax(0,1fr))}.wrap{margin:14px auto}header{padding:13px 16px}.brand{font-size:15px}h1{font-size:24px}}
+:root {
+  --primary: #335cff;
+  --primary-dark: #2446d8;
+  --background: #f4f6fb;
+  --white: #ffffff;
+  --text: #182238;
+  --muted: #687386;
+  --border: #e0e5ee;
+  --green: #168353;
+  --red: #bd3028;
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  font-family: Arial, Helvetica, sans-serif;
+  background: var(--background);
+  color: var(--text);
+}
+header {
+  background: var(--white);
+  border-bottom: 1px solid var(--border);
+  padding: 16px 5%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 15px;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+.brand { font-size: 21px; font-weight: 800; }
+.brand span { color: var(--primary); }
+.wrap { max-width: 1200px; margin: 25px auto; padding: 0 18px; }
+.card {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 22px;
+  margin-bottom: 18px;
+  box-shadow: 0 4px 15px #18223808;
+}
+h1, h2, h3 { margin-top: 0; }
+h1 { font-size: 27px; }
+h2 { font-size: 21px; }
+h3 { font-size: 17px; }
+p { line-height: 1.55; }
+.muted { color: var(--muted); }
+.hidden { display: none !important; }
+button {
+  border: none;
+  border-radius: 8px;
+  padding: 10px 14px;
+  background: var(--primary);
+  color: white;
+  font-weight: 700;
+  cursor: pointer;
+  font-size: 14px;
+}
+button:hover { background: var(--primary-dark); }
+button:disabled { opacity: .55; cursor: not-allowed; }
+button.secondary { background: #edf1ff; color: #2445cf; }
+button.danger { background: #fff0ef; color: var(--red); }
+button.ghost { background: #eef1f6; color: var(--text); }
+input, select, textarea {
+  width: 100%;
+  padding: 11px;
+  border: 1px solid #ccd4e1;
+  border-radius: 8px;
+  font: inherit;
+  background: white;
+  color: var(--text);
+}
+textarea { min-height: 90px; resize: vertical; }
+label { display: block; margin-bottom: 6px; font-size: 13px; font-weight: 700; }
+.field { min-width: 0; }
+.grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+}
+.wide { grid-column: 1 / -1; }
+.actions { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
+.authbox { max-width: 480px; margin: 7vh auto; }
+.tabs { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 20px; }
+.tabs button { background: #e9edf5; color: #34405a; }
+.tabs button.active { background: var(--primary); color: white; }
+.stats {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px;
+  margin-top: 18px;
+}
+.stat {
+  background: #f7f9ff;
+  border: 1px solid var(--border);
+  border-radius: 11px;
+  padding: 15px;
+}
+.stat strong { display: block; font-size: 25px; margin-top: 6px; }
+.list { display: grid; gap: 12px; }
+.item { border: 1px solid var(--border); border-radius: 11px; padding: 16px; }
+.item-head { display: flex; justify-content: space-between; align-items: start; gap: 10px; }
+.item p { white-space: pre-wrap; }
+.pill {
+  display: inline-block;
+  padding: 4px 9px;
+  border-radius: 20px;
+  background: #edf1f8;
+  font-size: 12px;
+  font-weight: 700;
+}
+.pill.ACTIVE, .pill.HIRED, .pill.SELECTED, .pill.SHORTLISTED {
+  background: #e2f7eb; color: #146b45;
+}
+.pill.REJECTED, .pill.CLOSED, .pill.WITHDRAWN {
+  background: #ffebe9; color: #a3261d;
+}
+.notice { padding: 13px; border-radius: 9px; margin-bottom: 15px; }
+.notice.success { background: #e8f8ef; color: #146b45; }
+.notice.error { background: #fff0ef; color: #a3261d; }
+.empty { text-align: center; color: var(--muted); padding: 25px; }
+.progress { background: #e6eaf1; height: 9px; border-radius: 20px; overflow: hidden; margin: 10px 0; }
+.progress div { height: 100%; background: var(--primary); }
+.table-wrap { overflow-x: auto; }
+table { width: 100%; border-collapse: collapse; font-size: 14px; }
+th, td { padding: 11px; border-bottom: 1px solid var(--border); text-align: left; vertical-align: top; }
+th { color: var(--muted); font-size: 12px; }
+hr { border: 0; border-top: 1px solid var(--border); margin: 20px 0; }
+@media(max-width:750px) {
+  .grid, .stats { grid-template-columns: 1fr; }
+  header { padding: 13px 16px; }
+  .brand { font-size: 17px; }
+  h1 { font-size: 23px; }
+}
 </style>
 </head>
+
 <body>
 <header>
-  <div class="brand">Talent<span>Bridge</span> <span style="color:#687386;font-weight:500">| Recruitment</span></div>
-  <div class="top-actions">
-    <span id="who" class="muted small"></span>
-    <button id="logoutBtn" class="ghost hidden" onclick="logout()">Log out</button>
+  <div class="brand">Talent<span>Bridge</span> <small class="muted">| Recruitment</small></div>
+  <div>
+    <span id="who" class="muted"></span>
+    <button id="logoutButton" class="ghost hidden" onclick="logout()">Log out</button>
   </div>
 </header>
+
 <main class="wrap">
-<div id="message" class="hidden"></div>
-<section id="authView" class="authbox card">
-<h1 id="authTitle">Welcome back</h1>
-<p class="muted">Sign in to your recruitment workspace.</p>
-<div class="authswitch">
-<button class="secondary" id="showLogin" onclick="setAuthMode('login')">Login</button>
-<button class="ghost" id="showRegister" onclick="setAuthMode('register')">Register</button>
-</div>
-<form id="authForm" class="grid">
-<div class="field wide hidden" id="nameField"><label>Full name</label><input id="full_name" minlength="2" maxlength="100" autocomplete="name"></div>
-<div class="field wide"><label>Email</label><input id="email" type="email" required autocomplete="email"></div>
-<div class="field wide"><label>Password</label><input id="password" type="password" minlength="6" required autocomplete="current-password"></div>
-<div class="field wide hidden" id="roleField">
-<label>Account type</label>
-<select id="role"><option value="CANDIDATE">Candidate</option><option value="HR">HR</option></select>
-<p class="small muted">For deployment, HR accounts should be created only by an administrator.</p>
-</div>
-<div class="field wide"><button id="authSubmit" type="submit" style="width:100%">Login</button></div>
-</form>
-</section>
-<section id="appView" class="hidden">
-<div class="card">
-<h1 id="pageTitle">Dashboard</h1>
-<p class="muted" id="pageSub">Manage recruitment activities.</p>
-<div class="tabs" id="tabs"></div>
-<div class="stats" id="stats"></div>
-</div>
-<div id="panel"></div>
-</section>
+  <div id="message" class="hidden"></div>
+
+  <section id="authView" class="card authbox">
+    <h1 id="authTitle">Welcome back</h1>
+    <p class="muted">Sign in to your recruitment workspace.</p>
+
+    <div class="actions">
+      <button id="loginTab" class="secondary" onclick="setAuthMode('login')">Login</button>
+      <button id="registerTab" class="ghost" onclick="setAuthMode('register')">Register as Candidate</button>
+    </div>
+
+    <form id="authForm" class="grid">
+      <div id="nameField" class="field wide hidden">
+        <label>Full name</label>
+        <input id="fullName" minlength="2" maxlength="100">
+      </div>
+
+      <div class="field wide">
+        <label>Email address</label>
+        <input id="email" type="email" required autocomplete="email">
+      </div>
+
+      <div class="field wide">
+        <label>Password</label>
+        <input id="password" type="password" required minlength="6">
+      </div>
+
+      <div class="wide">
+        <button id="authSubmit" type="submit" style="width:100%">Login</button>
+      </div>
+    </form>
+    <p class="muted">HR accounts must be created with the HR role in your backend/database.</p>
+  </section>
+
+  <section id="appView" class="hidden">
+    <div class="card">
+      <h1 id="pageTitle">Dashboard</h1>
+      <p id="pageSubtitle" class="muted"></p>
+      <div id="tabs" class="tabs"></div>
+      <div id="stats" class="stats"></div>
+    </div>
+    <div id="panel"></div>
+  </section>
 </main>
+
 <script>
-const API='http://127.0.0.1:8001';
-let token=localStorage.getItem('hrms_token')||'';
-let role=localStorage.getItem('hrms_role')||'';
-let email=localStorage.getItem('hrms_email')||'';
-let authMode='login', me=null, candidate=null, jobs=[], applications=[], interviews=[];
-const $=id=>document.getElementById(id);
-function esc(v){return String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
-function val(id){return $(id)?.value?.trim()||''}
-function notify(msg,type='success'){
- const el=$('message');el.className='notice '+(type==='error'?'error':'success');
- el.textContent=msg;el.classList.remove('hidden');window.scrollTo({top:0,behavior:'smooth'});
- setTimeout(()=>el.classList.add('hidden'),6500);
+"use strict";
+
+/* ================= CONFIGURATION ================= */
+const API = "http://127.0.0.1:8001";
+
+let token = localStorage.getItem("hrms_token") || "";
+let role = localStorage.getItem("hrms_role") || "";
+let currentUser = null;
+let currentCandidate = null;
+let currentJobs = [];
+let currentApplications = [];
+let currentTab = "overview";
+let authMode = "login";
+
+const $ = id => document.getElementById(id);
+const value = id => ($(id)?.value ?? "").trim();
+
+function escapeHTML(value) {
+  return String(value ?? "").replace(/[&<>"']/g, char => ({
+    "&": "&amp;", "<": "&lt;", ">": "&gt;",
+    '"': "&quot;", "'": "&#39;"
+  })[char]);
 }
-async function api(path,opts={}){
- const headers={...(opts.headers||{})};
- if(token)headers.Authorization='Bearer '+token;
- if(opts.body && !(opts.body instanceof FormData))headers['Content-Type']='application/json';
- let r;
- try{r=await fetch(API+path,{...opts,headers});}
- catch(e){throw new Error('Cannot connect to FastAPI. Start your backend at '+API+'.');}
- const ct=r.headers.get('content-type')||'';
- let data=ct.includes('application/json')?await r.json():await r.text();
- if(!r.ok)throw new Error(data?.detail||data?.message||('Request failed ('+r.status+')'));
- return data;
+
+function showMessage(message, type = "success") {
+  const box = $("message");
+  box.className = "notice " + (type === "error" ? "error" : "success");
+  box.textContent = message;
+  window.scrollTo({ top: 0, behavior: "smooth" });
+  clearTimeout(showMessage.timer);
+  showMessage.timer = setTimeout(() => box.classList.add("hidden"), 6000);
 }
-function setAuthMode(mode){
- authMode=mode;
- $('authTitle').textContent=mode==='login'?'Welcome back':'Create your account';
- $('authSubmit').textContent=mode==='login'?'Login':'Register';
- $('nameField').classList.toggle('hidden',mode==='login');
- $('roleField').classList.toggle('hidden',mode==='login');
- $('full_name').required=mode==='register';
- $('showLogin').className=mode==='login'?'':'ghost';
- $('showRegister').className=mode==='register'?'':'ghost';
- $('password').autocomplete=mode==='login'?'current-password':'new-password';
+
+function showLoading(message = "Loading...") {
+  $("panel").innerHTML = `<div class="card">${escapeHTML(message)}</div>`;
 }
-$('authForm').addEventListener('submit',async e=>{
- e.preventDefault();
- try{
-  const body={email:val('email'),password:val('password')};
-  if(authMode==='register'){
-   body.full_name=val('full_name');body.role=val('role');
-   const res=await api('/auth/register',{method:'POST',body:JSON.stringify(body)});
-   token=res.access_token;role=body.role;email=body.email;
-   if(role==='CANDIDATE'){
-    const payload=JSON.parse(atob(token.split('.')[1].replace(/-/g,'+').replace(/_/g,'/')));
-    await api('/candidates/',{method:'POST',body:JSON.stringify({user_id:Number(payload.sub),experience_years:0})});
-   }
-  }else{
-   const res=await api('/auth/login',{method:'POST',body:JSON.stringify(body)});
-   token=res.access_token;email=body.email;
-   const user=await api('/auth/me').catch(()=>null);
-   role=user?.role||'CANDIDATE';
-   if(!user){try{await api('/dashboard/hr');role='HR'}catch{role='CANDIDATE'}}
+
+function errorMessage(error) {
+  return error?.message || "Something went wrong.";
+}
+
+/* ================= API HELPER ================= */
+async function api(path, options = {}) {
+  const headers = { ...(options.headers || {}) };
+
+  if (token) headers.Authorization = "Bearer " + token;
+
+  if (options.body && !(options.body instanceof FormData)) {
+    headers["Content-Type"] = "application/json";
   }
-  localStorage.setItem('hrms_token',token);
-  localStorage.setItem('hrms_role',role);
-  localStorage.setItem('hrms_email',email);
-  await boot();notify('Signed in successfully');
- }catch(err){notify(err.message,'error')}
-});
-function logout(){
- token='';role='';email='';candidate=null;
- localStorage.removeItem('hrms_token');localStorage.removeItem('hrms_role');localStorage.removeItem('hrms_email');
- $('appView').classList.add('hidden');$('authView').classList.remove('hidden');
- $('logoutBtn').classList.add('hidden');$('who').textContent='';setAuthMode('login');
-}
-const hrTabs=[['overview','Overview'],['jobs','Manage jobs'],['applications','Applications'],['candidates','Candidates'],['interviews','Interviews'],['notifications','Notifications']];
-const candTabs=[['overview','Overview'],['jobs','Find jobs'],['profile','My profile'],['applications','My applications'],['interviews','My interviews'],['notifications','Notifications']];
-let currentTab='overview';
-function renderTabs(){
- const t=role==='HR'?hrTabs:candTabs;
- $('tabs').innerHTML=t.map(([id,label])=>`<button class="${id===currentTab?'active':''}" onclick="go('${id}')">${label}</button>`).join('');
-}
-async function boot(){
- if(!token){$('authView').classList.remove('hidden');$('appView').classList.add('hidden');return}
- $('authView').classList.add('hidden');$('appView').classList.remove('hidden');
- $('logoutBtn').classList.remove('hidden');$('who').textContent=email;
- if(!role){try{await api('/dashboard/hr');role='HR'}catch{role='CANDIDATE'}localStorage.setItem('hrms_role',role)}
- currentTab='overview';
- $('pageTitle').textContent=role==='HR'?'HR Dashboard':'Candidate Dashboard';
- $('pageSub').textContent=role==='HR'?'Manage vacancies, applicants and interviews.':'Find jobs and manage your applications.';
- renderTabs();await loadTab();
-}
-function go(tab){currentTab=tab;renderTabs();loadTab().catch(e=>notify(e.message,'error'))}
-async function loadTab(){
- const p=$('panel');p.innerHTML='<div class="card">Loading…</div>';
- try{
-  if(currentTab==='overview')return await overview();
-  if(currentTab==='jobs')return await jobsPage();
-  if(currentTab==='profile')return await profilePage();
-  if(currentTab==='applications')return await applicationsPage();
-  if(currentTab==='candidates')return await candidatesPage();
-  if(currentTab==='interviews')return await interviewsPage();
-  if(currentTab==='notifications')return await notificationsPage();
- }catch(e){
-  p.innerHTML=`<div class="card"><h2>Could not load this section</h2><p class="notice error">${esc(e.message)}</p><p class="muted">Check that the backend is running and the endpoint is available.</p><button onclick="loadTab()">Try again</button></div>`;
- }
-}
-function stat(label,n){return `<div class="stat"><span class="muted">${esc(label)}</span><b>${esc(n??0)}</b></div>`}
 
-/* ---------- PART 2: JOBS, PROFILE, RESUME, APPLICATIONS ---------- */
-
-let editingJobId=null;
-
-async function getJobsForCurrentRole(){
-  const data=await api('/jobs/?limit=100');
-  return Array.isArray(data)?data:(data.jobs||[]);
-}
-
-async function overview(){
-  const p=$('panel');
-  if(role==='HR'){
-    const d=await api('/dashboard/hr');
-    const s=d.summary||{};
-    $('stats').innerHTML=[
-      stat('Total jobs',s.total_jobs),
-      stat('Active jobs',s.active_jobs),
-      stat('Applications',s.total_applications),
-      stat('Candidates',s.total_candidates)
-    ].join('');
-    p.innerHTML=`
-      <div class="card"><h2>Recent applications</h2>
-      <div class="list">${(d.recent_applications||[]).map(a=>`
-        <div class="item"><div class="itemhead"><b>${esc(a.candidate_name||'Candidate')}</b>
-        <span class="pill ${esc(a.status)}">${esc(a.status)}</span></div>
-        <p>${esc(a.job_title||'Job')} · Applied ${esc(a.applied_at||'')}</p>
-        <button class="secondary" onclick="go('applications')">Manage applications</button></div>`).join('')||'<div class="empty">No applications yet.</div>'}</div></div>
-      <div class="card"><h2>Quick actions</h2><div class="actions">
-      <button onclick="go('jobs');setTimeout(()=>jobForm(),100)">Post a job</button>
-      <button class="secondary" onclick="go('applications')">View applicants</button>
-      <button class="secondary" onclick="go('interviews')">Manage interviews</button></div></div>`;
-  }else{
-    const d=await api('/dashboard/candidate');
-    const s=d.summary||{},profile=d.profile||{};
-    $('stats').innerHTML=[
-      stat('Applications',s.total_applications),
-      stat('Profile completion',(profile.completion_percentage||0)+'%'),
-      stat('Upcoming interviews',(d.upcoming_interviews||[]).length),
-      stat('Resume uploaded',profile.has_resume?'Yes':'No')
-    ].join('');
-    p.innerHTML=`
-      <div class="card"><h2>Welcome, ${esc(d.candidate?.full_name||email)}</h2>
-      <p>Your profile is ${esc(profile.completion_percentage||0)}% complete.</p>
-      <div class="progress"><div style="width:${Math.min(100,Number(profile.completion_percentage)||0)}%"></div></div>
-      <p class="muted">${profile.can_apply_for_jobs?'Your profile is ready to apply.':'Complete your profile and upload your resume before applying.'}</p>
-      <div class="actions"><button onclick="go('profile')">Complete profile</button><button class="secondary" onclick="go('jobs')">Find jobs</button></div></div>
-      <div class="card"><h2>My recent applications</h2>
-      <div class="list">${(d.applications||[]).map(a=>`<div class="item"><div class="itemhead"><b>${esc(a.job_title)}</b><span class="pill ${esc(a.application_status)}">${esc(a.application_status)}</span></div><p>${esc(a.location||'')} · ${esc(a.applied_at||'')}</p></div>`).join('')||'<div class="empty">You have not applied for any jobs yet.</div>'}</div></div>`;
-  }
-}
-
-function jobForm(job=null){
-  editingJobId=job?.id||null;
-  const p=$('panel');
-  p.innerHTML=`
-  <div class="card"><h2>${job?'Edit job':'Post a vacancy'}</h2>
-  <form id="jobForm" class="grid">
-    <div class="field"><label>Job title *</label><input name="title" required minlength="2" value="${esc(job?.title||'')}"></div>
-    <div class="field"><label>Department</label><input name="department" value="${esc(job?.department||'')}"></div>
-    <div class="field"><label>Location *</label><input name="location" required value="${esc(job?.location||'')}"></div>
-    <div class="field"><label>Employment type</label><select name="employment_type">
-      ${['FULL_TIME','PART_TIME','CONTRACT','INTERNSHIP'].map(x=>`<option ${job?.employment_type===x?'selected':''}>${x}</option>`).join('')}
-    </select></div>
-    <div class="field"><label>Minimum experience (years)</label><input name="experience_min" type="number" min="0" max="60" value="${job?.experience_min??0}"></div>
-    <div class="field"><label>Maximum experience (years)</label><input name="experience_max" type="number" min="0" max="60" value="${job?.experience_max??''}"></div>
-    <div class="field"><label>Minimum salary</label><input name="salary_min" type="number" min="0" value="${job?.salary_min??''}"></div>
-    <div class="field"><label>Maximum salary</label><input name="salary_max" type="number" min="0" value="${job?.salary_max??''}"></div>
-    <div class="field"><label>Vacancies</label><input name="vacancies" type="number" min="1" value="${job?.vacancies??1}"></div>
-    <div class="field"><label>Application deadline</label><input name="application_deadline" type="date" value="${esc(job?.application_deadline||'')}"></div>
-    <div class="field wide"><label>Required skills</label><input name="required_skills" value="${esc(job?.required_skills||'')}" placeholder="Java, SQL, Python"></div>
-    <div class="field wide"><label>Job description *</label><textarea name="description" required minlength="10">${esc(job?.description||'')}</textarea></div>
-    <div class="field wide"><label>Responsibilities</label><textarea name="responsibilities">${esc(job?.responsibilities||'')}</textarea></div>
-    <div class="field wide"><label>Qualifications</label><textarea name="qualifications">${esc(job?.qualifications||'')}</textarea></div>
-    <div class="field"><label>Status</label><select name="status">${['DRAFT','ACTIVE','CLOSED'].map(x=>`<option ${job?.status===x?'selected':(!job&&x==='DRAFT'?'selected':'')}>${x}</option>`).join('')}</select></div>
-    <div class="field wide actions"><button type="submit">${job?'Save changes':'Create job'}</button><button type="button" class="ghost" onclick="jobsPage()">Cancel</button></div>
-  </form></div>`;
-  $('jobForm').onsubmit=saveJob;
-}
-
-async function saveJob(e){
-  e.preventDefault();
-  const f=new FormData(e.target),data={};
-  for(const [k,v] of f.entries())data[k]=v.trim();
-  ['experience_min','experience_max','salary_min','salary_max','vacancies'].forEach(k=>{
-    if(data[k]==='')data[k]=null;
-    else if(data[k]!=null)data[k]=Number(data[k]);
-  });
-  if(data.experience_min==null)data.experience_min=0;
-  if(data.vacancies==null)data.vacancies=1;
-  if(!data.application_deadline)data.application_deadline=null;
-  try{
-    const path=editingJobId?'/jobs/'+editingJobId:'/jobs/';
-    const method=editingJobId?'PUT':'POST';
-    await api(path,{method,body:JSON.stringify(data)});
-    notify(editingJobId?'Job updated successfully':'Job created successfully');
-    editingJobId=null;await jobsPage();
-  }catch(e){notify(e.message,'error')}
-}
-
-async function jobsPage(){
-  const p=$('panel'),isHR=role==='HR';
-  const data=await api('/jobs/?limit=100');
-  jobs=Array.isArray(data)?data:(data.jobs||[]);
-  $('stats').innerHTML=[stat('Jobs found',data.total??jobs.length),stat('Active jobs',jobs.filter(j=>j.status==='ACTIVE').length),stat('Showing',jobs.length),stat('Role',role)].join('');
-  p.innerHTML=`
-  <div class="card"><div class="itemhead"><div><h2>${isHR?'Manage vacancies':'Available jobs'}</h2><p class="muted">${isHR?'Create and manage job postings.':'Search for roles and submit applications.'}</p></div>
-  ${isHR?'<button onclick="jobForm()">+ Post job</button>':''}</div>
-  <div class="grid" style="margin-top:16px">
-    <div class="field"><label>Search jobs</label><input id="jobSearch" placeholder="Title, skill, description"></div>
-    <div class="field"><label>Filter by status</label><select id="jobStatus"><option value="">All visible jobs</option><option>ACTIVE</option>${isHR?'<option>DRAFT</option><option>CLOSED</option>':''}</select></div>
-  </div>
-  <div class="actions"><button class="secondary" onclick="filterJobs()">Search / filter</button><button class="ghost" onclick="jobsPage()">Refresh</button></div>
-  </div><div id="jobList" class="list"></div>`;
-  filterJobs();
-}
-
-function filterJobs(){
-  const q=(val('jobSearch')||'').toLowerCase(),st=val('jobStatus');
-  const filtered=jobs.filter(j=>(!q||[j.title,j.description,j.required_skills,j.department,j.location].some(v=>String(v||'').toLowerCase().includes(q)))&&(!st||j.status===st));
-  $('jobList').innerHTML=filtered.map(j=>`
-  <div class="card"><div class="itemhead"><div><h2>${esc(j.title)}</h2><p class="muted">${esc(j.department||'General')} · ${esc(j.location)} · ${esc(j.employment_type||'')}</p></div><span class="pill ${esc(j.status)}">${esc(j.status)}</span></div>
-  <p>${esc(j.description)}</p><p><b>Skills:</b> ${esc(j.required_skills||'Not specified')}</p>
-  <p><b>Experience:</b> ${esc(j.experience_min??0)}–${esc(j.experience_max??'Any')} years · <b>Vacancies:</b> ${esc(j.vacancies??1)}</p>
-  <p><b>Deadline:</b> ${esc(j.application_deadline||'Not specified')}</p>
-  <div class="actions">
-  ${role==='HR'?`
-    <button onclick="editJob(${j.id})">Edit</button>
-    <button class="secondary" onclick="changeJobStatus(${j.id},'ACTIVE')">Publish</button>
-    <button class="ghost" onclick="changeJobStatus(${j.id},'CLOSED')">Close</button>
-    <button class="danger" onclick="deleteJob(${j.id})">Delete</button>
-    <button class="secondary" onclick="go('applications')">View applicants</button>
-  `:`
-    <button ${j.status!=='ACTIVE'?'disabled':''} onclick="applyForJob(${j.id})">Apply now</button>
-  `}
-  </div></div>`).join('')||'<div class="card empty">No matching jobs found.</div>';
-}
-
-async function editJob(id){
-  try{
-    const job=await api('/jobs/'+id);
-    jobForm(job);
-  }catch(e){notify(e.message,'error')}
-}
-async function changeJobStatus(id,status){
-  try{
-    await api('/jobs/'+id,{method:'PUT',body:JSON.stringify({status})});
-    notify('Job status changed to '+status);await jobsPage();
-  }catch(e){notify(e.message,'error')}
-}
-async function deleteJob(id){
-  if(!confirm('Delete this job? This may be blocked if applications already exist.'))return;
-  try{
-    await api('/jobs/'+id,{method:'DELETE'});
-    notify('Job deleted');await jobsPage();
-  }catch(e){notify(e.message,'error')}
-}
-
-/* Candidate profile and resume */
-
-async function findMyCandidate(){
-  const d=await api('/dashboard/candidate');
-  candidate={...(d.candidate||{}),...(d.profile||{})};
-  return d.candidate?.candidate_id;
-}
-
-async function profilePage(){
-  if(role!=='CANDIDATE')throw new Error('Only candidates can edit candidate profiles.');
-  const p=$('panel');
-  let dash=await api('/dashboard/candidate');
-  const cid=dash.candidate?.candidate_id;
-  let c={};
-  if(cid)c=await api('/candidates/'+cid);
-  candidate={...c,candidate_id:cid};
-  const completion=dash.profile?.completion_percentage||0;
-  $('stats').innerHTML=[stat('Profile completion',completion+'%'),stat('Resume',dash.profile?.has_resume?'Uploaded':'Missing'),stat('Applications',dash.summary?.total_applications||0),stat('Can apply',dash.profile?.can_apply_for_jobs?'Yes':'Not yet')].join('');
-  p.innerHTML=`
-  <div class="card"><h2>My candidate profile</h2>
-  <p class="muted">Keep your details accurate to improve your profile.</p>
-  <p>Completion: <b>${completion}%</b></p><div class="progress"><div style="width:${completion}%"></div></div>
-  <form id="profileForm" class="grid">
-    <div class="field"><label>Phone</label><input name="phone" value="${esc(c.phone||'')}"></div>
-    <div class="field"><label>Date of birth</label><input name="date_of_birth" type="date" value="${esc(c.date_of_birth||'')}"></div>
-    <div class="field"><label>Gender</label><input name="gender" value="${esc(c.gender||'')}"></div>
-    <div class="field"><label>City</label><input name="city" value="${esc(c.city||'')}"></div>
-    <div class="field wide"><label>Address</label><textarea name="address">${esc(c.address||'')}</textarea></div>
-    <div class="field"><label>Qualification</label><input name="qualification" value="${esc(c.qualification||'')}"></div>
-    <div class="field"><label>College</label><input name="college" value="${esc(c.college||'')}"></div>
-    <div class="field"><label>Graduation year</label><input name="graduation_year" type="number" min="1950" max="2100" value="${esc(c.graduation_year||'')}"></div>
-    <div class="field"><label>Experience (years)</label><input name="experience_years" type="number" min="0" step="0.5" value="${esc(c.experience_years??0)}"></div>
-    <div class="field wide"><label>Skills</label><textarea name="skills" placeholder="Java, Spring Boot, SQL, Python">${esc(c.skills||'')}</textarea></div>
-    <div class="field"><label>Previous company</label><input name="previous_company" value="${esc(c.previous_company||'')}"></div>
-    <div class="field"><label>Previous job title</label><input name="previous_job_title" value="${esc(c.previous_job_title||'')}"></div>
-    <div class="field wide actions"><button type="submit">Save profile</button></div>
-  </form></div>
-  <div class="card"><h2>Resume</h2><p class="muted">Upload your resume as a PDF file.</p>
-  <form id="resumeForm" class="grid"><div class="field wide"><label>Choose PDF resume</label><input type="file" id="resumeFile" accept="application/pdf,.pdf" required></div><div class="field wide"><button type="submit">Upload resume</button><button type="button" class="secondary" onclick="downloadMyResume()">Download my resume</button></div></form></div>`;
-  $('profileForm').onsubmit=saveProfile;
-  $('resumeForm').onsubmit=uploadResume;
-}
-
-async function saveProfile(e){
-  e.preventDefault();
-  const f=new FormData(e.target),data={};
-  for(const [k,v] of f.entries())data[k]=v.trim();
-  ['date_of_birth','gender','phone','address','city','qualification','college','graduation_year','skills','experience_years','previous_company','previous_job_title'].forEach(k=>{if(data[k]==='')data[k]=null});
-  if(data.graduation_year!==null)data.graduation_year=Number(data.graduation_year);
-  data.experience_years=Number(data.experience_years||0);
-  try{
-    const d=await api('/dashboard/candidate');
-    const cid=d.candidate?.candidate_id;
-    if(!cid)throw new Error('Candidate profile was not found. Please contact the administrator to create it.');
-    await api('/candidates/'+cid,{method:'PUT',body:JSON.stringify(data)});
-    notify('Profile updated successfully');await profilePage();
-  }catch(e){notify(e.message,'error')}
-}
-
-async function uploadResume(e){
-  e.preventDefault();
-  const file=$('resumeFile').files[0];
-  if(!file)return notify('Choose a PDF file first.','error');
-  if(file.type!=='application/pdf'&&!file.name.toLowerCase().endsWith('.pdf'))return notify('Only PDF resumes are allowed.','error');
-  const fd=new FormData();fd.append('file',file);
-  try{
-    await api('/resumes/upload',{method:'POST',body:fd});
-    notify('Resume uploaded successfully');await profilePage();
-  }catch(e){notify(e.message,'error')}
-}
-async function downloadMyResume(){
-  try{
-    const r=await fetch(API+'/resumes/me',{headers:{Authorization:'Bearer '+token}});
-    if(!r.ok){let d={};try{d=await r.json()}catch{}throw new Error(d.detail||'Could not download resume')}
-    const blob=await r.blob(),url=URL.createObjectURL(blob),a=document.createElement('a');
-    a.href=url;a.download='my_resume.pdf';a.click();URL.revokeObjectURL(url);
-  }catch(e){notify(e.message,'error')}
-}
-
-/* Applications */
-
-async function applyForJob(jobId){
-  const cover=prompt('Optional cover letter (you can leave it blank):')||'';
-  try{
-    await api('/applications/',{method:'POST',body:JSON.stringify({job_id:jobId,cover_letter:cover})});
-    notify('Application submitted successfully');await loadTab();
-  }catch(e){notify(e.message,'error')}
-}
-
-async function applicationsPage(){
-  const p=$('panel');
-  if(role==='HR'){
-    const d=await api('/hr/applications/?limit=100');
-    applications=d.applications||[];
-    $('stats').innerHTML=[stat('Applications',d.total_returned||applications.length),stat('Shortlisted',applications.filter(a=>a.status==='SHORTLISTED').length),stat('Interviews',applications.filter(a=>a.status==='INTERVIEW_SCHEDULED').length),stat('Hired',applications.filter(a=>a.status==='HIRED').length)].join('');
-    p.innerHTML=`<div class="card"><h2>Applications</h2>
-      <div class="grid"><div class="field"><label>Filter by status</label><select id="appFilter"><option value="">All statuses</option>${['APPLIED','UNDER_REVIEW','SHORTLISTED','REJECTED','INTERVIEW_SCHEDULED','SELECTED','HIRED'].map(s=>`<option>${s}</option>`).join('')}</select></div>
-      <div class="field"><label>Filter by job ID (optional)</label><input id="appJobFilter" type="number" min="1" placeholder="Job ID"></div></div>
-      <div class="actions"><button onclick="filterApplications()">Filter</button><button class="secondary" onclick="applicationsPage()">Refresh</button></div></div>
-      <div id="applicationList" class="list"></div>`;
-    filterApplications();
-  }else{
-    const d=await api('/applications/');
-    applications=Array.isArray(d)?d:(d.applications||[]);
-    $('stats').innerHTML=[stat('My applications',applications.length),stat('Under review',applications.filter(a=>a.status==='UNDER_REVIEW').length),stat('Shortlisted',applications.filter(a=>a.status==='SHORTLISTED').length),stat('Rejected',applications.filter(a=>a.status==='REJECTED').length)].join('');
-    p.innerHTML=`<div class="card"><h2>My applications</h2><button class="secondary" onclick="applicationsPage()">Refresh</button></div>
-      <div class="list">${applications.map(a=>`<div class="card"><div class="itemhead"><h3>${esc(a.job_title||('Job #'+a.job_id))}</h3><span class="pill ${esc(a.status)}">${esc(a.status)}</span></div>
-      <p class="muted">Applied: ${esc(a.applied_at||'')}</p><p>${esc(a.cover_letter||'')}</p>
-      <div class="actions"><button class="secondary" onclick="viewApplicationHistory(${a.id||a.application_id})">View status history</button>
-      ${['APPLIED','UNDER_REVIEW'].includes(a.status)?`<button class="danger" onclick="withdrawApplication(${a.id||a.application_id})">Withdraw</button>`:''}</div></div>`).join('')||'<div class="card empty">You have not applied for any jobs yet.</div>'}</div>`;
-  }
-}
-
-function filterApplications(){
-  const status=val('appFilter'),job=val('appJobFilter');
-  const arr=applications.filter(a=>(!status||a.status===status)&&(!job||Number(a.job_id)===Number(job)));
-  $('applicationList').innerHTML=arr.map(a=>`<div class="card"><div class="itemhead"><div><h3>${esc(a.candidate_name||'Candidate')}</h3><p>${esc(a.candidate_email||'')} · ${esc(a.candidate_phone||'')}</p><p><b>Job:</b> ${esc(a.job_title||('Job #'+a.job_id))}</p></div><span class="pill ${esc(a.status)}">${esc(a.status)}</span></div>
-  <p><b>Skills:</b> ${esc(a.candidate_skills||'Not provided')}</p><p><b>Experience:</b> ${esc(a.candidate_experience_years??'Not specified')} years</p><p>${esc(a.cover_letter||'No cover letter')}</p>
-  <div class="actions"><button onclick="setApplicationStatus(${a.application_id},'UNDER_REVIEW')">Under review</button><button class="secondary" onclick="setApplicationStatus(${a.application_id},'SHORTLISTED')">Shortlist</button><button class="danger" onclick="setApplicationStatus(${a.application_id},'REJECTED')">Reject</button><button class="secondary" onclick="setApplicationStatus(${a.application_id},'SELECTED')">Select</button><button class="secondary" onclick="setApplicationStatus(${a.application_id},'HIRED')">Mark hired</button><button class="ghost" onclick="go('interviews')">Schedule interview</button></div></div>`).join('')||'<div class="card empty">No applications match this filter.</div>';
-}
-
-async function setApplicationStatus(id,status){
-  if(!confirm('Change this application status to '+status+'?'))return;
-  try{
-    await api('/applications/'+id+'/status',{method:'PATCH',body:JSON.stringify({status})});
-    notify('Application status updated');await applicationsPage();
-  }catch(e){notify(e.message,'error')}
-}
-async function withdrawApplication(id){
-  if(!confirm('Withdraw this application?'))return;
-  try{
-    await api('/applications/'+id+'/withdraw',{method:'POST'});
-    notify('Application withdrawn');await applicationsPage();
-  }catch(e){notify(e.message,'error')}
-}
-async function viewApplicationHistory(id){
-  try{
-    const d=await api('/applications/'+id+'/history');
-    const items=Array.isArray(d)?d:(d.history||d.records||[]);
-    alert(items.length?items.map(x=>`${x.old_status||'START'} → ${x.new_status||x.status||''} | ${x.changed_at||x.created_at||''} ${x.notes||''}`).join('\n'):'No status history returned.');
-  }catch(e){notify(e.message,'error')}
-}
-
-/* Part 3 will add HR candidate search, interviews, notifications,
-   and initialize the app after all sections have been pasted. */
-   
-/* ---------- PART 3: CANDIDATES, INTERVIEWS, NOTIFICATIONS ---------- */
-
-async function candidatesPage(){
-  if(role!=='HR')throw new Error('HR access required.');
-  const p=$('panel');
-  let d=await api('/hr/candidates/?limit=100');
-  let list=d.candidates||d.items||(Array.isArray(d)?d:[]);
-  $('stats').innerHTML=[
-    stat('Candidates',d.total_returned??list.length),
-    stat('With resumes',list.filter(c=>c.resume_path||c.has_resume).length),
-    stat('With experience',list.filter(c=>Number(c.experience_years)>0).length),
-    stat('Results',list.length)
-  ].join('');
-  p.innerHTML=`
-  <div class="card"><h2>Candidate directory</h2>
-  <div class="grid three">
-    <div class="field"><label>Search name, email, skills</label><input id="candidateSearch" placeholder="Java, Python, name"></div>
-    <div class="field"><label>Minimum experience</label><input id="candidateExperience" type="number" min="0" value="0"></div>
-    <div class="field"><label>Location</label><input id="candidateLocation" placeholder="Chennai"></div>
-  </div>
-  <div class="actions"><button onclick="filterCandidates()">Search candidates</button><button class="secondary" onclick="candidatesPage()">Refresh</button></div>
-  </div><div id="candidateList" class="list"></div>`;
-  window.candidateRows=list;
-  filterCandidates();
-}
-function filterCandidates(){
-  const list=window.candidateRows||[];
-  const q=val('candidateSearch').toLowerCase();
-  const exp=Number(val('candidateExperience')||0);
-  const loc=val('candidateLocation').toLowerCase();
-  const arr=list.filter(c=>{
-    const searchable=[c.full_name,c.name,c.email,c.skills,c.qualification,c.college].join(' ').toLowerCase();
-    return (!q||searchable.includes(q))&&Number(c.experience_years||0)>=exp&&(!loc||String(c.city||c.location||'').toLowerCase().includes(loc));
-  });
-  $('candidateList').innerHTML=arr.map(c=>`
-  <div class="card"><div class="itemhead"><div>
-    <h3>${esc(c.full_name||c.name||'Candidate')}</h3>
-    <p class="muted">${esc(c.email||'')} · ${esc(c.phone||'')}</p>
-  </div><span class="pill">${esc(c.experience_years??0)} years</span></div>
-  <p><b>Qualification:</b> ${esc(c.qualification||'Not provided')}</p>
-  <p><b>College:</b> ${esc(c.college||'Not provided')}</p>
-  <p><b>Skills:</b> ${esc(c.skills||'Not provided')}</p>
-  <p><b>Location:</b> ${esc(c.city||c.location||'Not provided')}</p>
-  <div class="actions">
-  <button class="secondary" onclick="go('applications')">View applications</button>
-  ${c.candidate_id?`<button class="ghost" onclick="viewCandidate(${c.candidate_id})">View profile</button>`:''}
-  </div></div>`).join('')||'<div class="card empty">No candidates match these filters.</div>';
-}
-async function viewCandidate(id){
-  try{
-    const c=await api('/candidates/'+id);
-    alert(
-      'Candidate: '+(c.full_name||c.name||'')+
-      '\nEmail: '+(c.email||'')+
-      '\nPhone: '+(c.phone||'')+
-      '\nQualification: '+(c.qualification||'')+
-      '\nSkills: '+(c.skills||'')+
-      '\nExperience: '+(c.experience_years??0)+' years'
+  let response;
+  try {
+    response = await fetch(API + path, { ...options, headers });
+  } catch {
+    throw new Error(
+      "Cannot connect to the backend. Start FastAPI on http://127.0.0.1:8001."
     );
-  }catch(e){notify(e.message,'error')}
-}
+  }
 
-/* Interviews */
-
-async function interviewsPage(){
-  const p=$('panel');
+  const contentType = response.headers.get("content-type") || "";
   let data;
-  if(role==='HR'){
-    data=await api('/interviews/');
-  }else{
-    data=await api('/interviews/my');
+
+  if (contentType.includes("application/json")) {
+    data = await response.json();
+  } else {
+    data = await response.text();
   }
-  interviews=Array.isArray(data)?data:(data.interviews||data.items||[]);
-  $('stats').innerHTML=[
-    stat('Interviews',interviews.length),
-    stat('Scheduled',interviews.filter(i=>i.status==='SCHEDULED').length),
-    stat('Completed',interviews.filter(i=>i.status==='COMPLETED').length),
-    stat('Cancelled',interviews.filter(i=>i.status==='CANCELLED').length)
-  ].join('');
-  p.innerHTML=`
-  ${role==='HR'?`<div class="card"><h2>Schedule an interview</h2>
-  <form id="interviewForm" class="grid">
-    <div class="field"><label>Application ID *</label><input name="application_id" type="number" min="1" required></div>
-    <div class="field"><label>Interview round</label><input name="round" placeholder="Technical round"></div>
-    <div class="field"><label>Date and time *</label><input name="scheduled_at" type="datetime-local" required></div>
-    <div class="field"><label>Duration (minutes)</label><input name="duration_minutes" type="number" min="15" value="30"></div>
-    <div class="field"><label>Interview mode</label><select name="mode"><option value="ONLINE">ONLINE</option><option value="IN_PERSON">IN_PERSON</option><option value="PHONE">PHONE</option></select></div>
-    <div class="field"><label>Meeting link or location</label><input name="location_or_link"></div>
-    <div class="field wide"><label>Notes</label><textarea name="notes"></textarea></div>
-    <div class="field wide"><button type="submit">Schedule interview</button></div>
-  </form></div>`:''}
-  <div class="card"><h2>${role==='HR'?'All interviews':'My interviews'}</h2><button class="secondary" onclick="interviewsPage()">Refresh</button></div>
-  <div class="list">${interviews.map(i=>`
-    <div class="card"><div class="itemhead"><div><h3>${esc(i.job_title||i.round||'Interview')}</h3>
-    <p class="muted">${esc(i.candidate_name||i.candidate_email||'')}</p></div><span class="pill">${esc(i.status||'SCHEDULED')}</span></div>
-    <p><b>When:</b> ${esc(i.scheduled_at||i.interview_date||'Not specified')}</p>
-    <p><b>Mode:</b> ${esc(i.mode||'Not specified')}</p>
-    <p><b>Location/link:</b> ${esc(i.location_or_link||i.meeting_link||'Not specified')}</p>
-    <p><b>Feedback:</b> ${esc(i.feedback||'Not submitted')}</p>
-    ${role==='HR'?`<div class="actions">
-      <button class="secondary" onclick="updateInterview(${i.id},'COMPLETED')">Mark completed</button>
-      <button class="danger" onclick="updateInterview(${i.id},'CANCELLED')">Cancel</button>
-      <button onclick="feedbackInterview(${i.id})">Add feedback</button>
-    </div>`:''}
-    </div>`).join('')||'<div class="card empty">No interviews found.</div>'}</div>`;
-  if(role==='HR'){
-    $('interviewForm').onsubmit=async e=>{
-      e.preventDefault();
-      const f=new FormData(e.target),body={};
-      for(const [k,v] of f.entries())body[k]=v.trim();
-      body.application_id=Number(body.application_id);
-      body.duration_minutes=Number(body.duration_minutes||30);
-      try{
-        await api('/interviews/',{method:'POST',body:JSON.stringify(body)});
-        notify('Interview scheduled');await interviewsPage();
-      }catch(err){notify(err.message,'error')}
+
+  if (!response.ok) {
+    const detail = typeof data === "object"
+      ? data?.detail || data?.message
+      : data;
+    throw new Error(detail || `Request failed (${response.status})`);
+  }
+
+  return data;
+}
+
+/* ================= AUTHENTICATION ================= */
+function setAuthMode(mode) {
+  authMode = mode;
+  $("authTitle").textContent =
+    mode === "login" ? "Welcome back" : "Create your account";
+  $("authSubmit").textContent =
+    mode === "login" ? "Login" : "Register";
+  $("nameField").classList.toggle("hidden", mode !== "register");
+  $("fullName").required = mode === "register";
+  $("loginTab").className = mode === "login" ? "secondary" : "ghost";
+  $("registerTab").className = mode === "register" ? "secondary" : "ghost";
+}
+
+$("authForm").addEventListener("submit", async event => {
+  event.preventDefault();
+
+  const submitButton = $("authSubmit");
+  submitButton.disabled = true;
+
+  try {
+    const credentials = {
+      email: value("email"),
+      password: value("password")
     };
+
+    if (authMode === "register") {
+      credentials.full_name = value("fullName");
+
+      // The backend creates public registrations as CANDIDATE.
+      const result = await api("/auth/register", {
+        method: "POST",
+        body: JSON.stringify(credentials)
+      });
+
+      token = result.access_token;
+      if (!token) throw new Error("Registration did not return an access token.");
+
+      // Verify the new account and use the actual numeric user ID.
+      currentUser = await api("/auth/me");
+      if (currentUser.role !== "CANDIDATE") {
+        throw new Error("Public registration is only for candidates.");
+      }
+
+      // Create the profile only after the user account exists.
+      try {
+        await api("/candidates/", {
+          method: "POST",
+          body: JSON.stringify({
+            user_id: Number(currentUser.id),
+            experience_years: 0
+          })
+        });
+      } catch (profileError) {
+        // Do not silently ignore unrelated profile creation errors.
+        if (!String(profileError.message).toLowerCase().includes("already has a candidate profile")) {
+          throw profileError;
+        }
+      }
+    } else {
+      const result = await api("/auth/login", {
+        method: "POST",
+        body: JSON.stringify(credentials)
+      });
+
+      token = result.access_token;
+      if (!token) throw new Error("Login did not return an access token.");
+      currentUser = await api("/auth/me");
+    }
+
+    if (!currentUser?.role) {
+      throw new Error("Could not verify your account role.");
+    }
+
+    role = String(currentUser.role).toUpperCase();
+    if (!["HR", "CANDIDATE"].includes(role)) {
+      throw new Error("This account has an unsupported role.");
+    }
+
+    localStorage.setItem("hrms_token", token);
+    localStorage.setItem("hrms_role", role);
+
+    await startApp();
+    showMessage(authMode === "register"
+      ? "Account created successfully."
+      : "Login successful.");
+  } catch (error) {
+    showMessage(errorMessage(error), "error");
+  } finally {
+    submitButton.disabled = false;
+  }
+});
+
+function logout() {
+  token = "";
+  role = "";
+  currentUser = null;
+  currentCandidate = null;
+
+  localStorage.removeItem("hrms_token");
+  localStorage.removeItem("hrms_role");
+
+  $("appView").classList.add("hidden");
+  $("authView").classList.remove("hidden");
+  $("logoutButton").classList.add("hidden");
+  $("who").textContent = "";
+  $("stats").innerHTML = "";
+  $("panel").innerHTML = "";
+  setAuthMode("login");
+}
+
+/* ================= NAVIGATION ================= */
+const HR_TABS = [
+  ["overview", "Overview"],
+  ["jobs", "Manage Jobs"],
+  ["applications", "Applications"],
+  ["candidates", "Candidates"]
+];
+
+const CANDIDATE_TABS = [
+  ["overview", "Overview"],
+  ["jobs", "Find Jobs"],
+  ["profile", "My Profile"],
+  ["applications", "My Applications"]
+];
+
+async function startApp() {
+  if (!token) {
+    $("authView").classList.remove("hidden");
+    $("appView").classList.add("hidden");
+    return;
+  }
+
+  currentUser = await api("/auth/me");
+  role = String(currentUser.role || "").toUpperCase();
+
+  if (!["HR", "CANDIDATE"].includes(role)) {
+    throw new Error("Your account does not have an HR or CANDIDATE role.");
+  }
+
+  localStorage.setItem("hrms_role", role);
+
+  $("authView").classList.add("hidden");
+  $("appView").classList.remove("hidden");
+  $("logoutButton").classList.remove("hidden");
+  $("who").textContent = currentUser.full_name || currentUser.email || "";
+
+  $("pageTitle").textContent =
+    role === "HR" ? "HR Dashboard" : "Candidate Dashboard";
+
+  $("pageSubtitle").textContent =
+    role === "HR"
+      ? "Manage vacancies and review candidate applications."
+      : "Find opportunities, complete your profile and track applications.";
+
+  renderTabs();
+  await go("overview");
+}
+
+function renderTabs() {
+  const tabs = role === "HR" ? HR_TABS : CANDIDATE_TABS;
+  $("tabs").innerHTML = tabs.map(([id, title]) =>
+    `<button class="${id === currentTab ? "active" : ""}"
+       onclick="go('${id}')">${escapeHTML(title)}</button>`
+  ).join("");
+}
+
+async function go(tab) {
+  const allowed = (role === "HR" ? HR_TABS : CANDIDATE_TABS)
+    .map(item => item[0]);
+
+  if (!allowed.includes(tab)) return;
+
+  currentTab = tab;
+  renderTabs();
+  $("stats").innerHTML = "";
+  showLoading();
+
+  try {
+    if (tab === "overview") await overviewPage();
+    if (tab === "jobs") await jobsPage();
+    if (tab === "profile") await profilePage();
+    if (tab === "applications") await applicationsPage();
+    if (tab === "candidates") await candidatesPage();
+  } catch (error) {
+    $("panel").innerHTML = `
+      <div class="card">
+        <h2>Unable to load this section</h2>
+        <div class="notice error">${escapeHTML(errorMessage(error))}</div>
+        <button onclick="go('${tab}')">Try again</button>
+      </div>`;
   }
 }
-async function updateInterview(id,status){
-  if(!confirm('Change interview status to '+status+'?'))return;
-  try{
-    await api('/interviews/'+id,{method:'PATCH',body:JSON.stringify({status})});
-    notify('Interview updated');await interviewsPage();
-  }catch(e){notify(e.message,'error')}
-}
-async function feedbackInterview(id){
-  const feedback=prompt('Enter interview feedback:');
-  if(feedback===null)return;
-  const rating=prompt('Enter rating from 1 to 5 (optional):');
-  try{
-    await api('/interviews/'+id+'/feedback',{method:'PATCH',body:JSON.stringify({
-      feedback,
-      rating:rating?Number(rating):null
-    })});
-    notify('Feedback saved');await interviewsPage();
-  }catch(e){notify(e.message,'error')}
+
+function stat(label, number) {
+  return `<div class="stat"><span class="muted">${escapeHTML(label)}</span>
+    <strong>${escapeHTML(number ?? 0)}</strong></div>`;
 }
 
-/* Notifications */
-
-async function notificationsPage(){
-  const p=$('panel');
-  const data=await api('/notifications/');
-  const list=Array.isArray(data)?data:(data.notifications||data.items||[]);
-  $('stats').innerHTML=[
-    stat('Notifications',list.length),
-    stat('Unread',list.filter(n=>!n.is_read&&!n.read_at).length),
-    stat('Read',list.filter(n=>n.is_read||n.read_at).length),
-    stat('Account type',role)
-  ].join('');
-  p.innerHTML=`<div class="card"><div class="itemhead"><h2>Notifications</h2>
-  <button class="secondary" onclick="notificationsPage()">Refresh</button></div></div>
-  <div class="list">${list.map(n=>`
-    <div class="card"><div class="itemhead"><h3>${esc(n.title||n.subject||'Notification')}</h3>
-    <span class="pill">${n.is_read||n.read_at?'READ':'UNREAD'}</span></div>
-    <p>${esc(n.message||n.body||n.content||'')}</p>
-    <p class="muted small">${esc(n.created_at||'')}</p>
-    ${!n.is_read&&!n.read_at?`<button class="secondary" onclick="markNotificationRead(${n.id})">Mark as read</button>`:''}
-    </div>`).join('')||'<div class="card empty">No notifications.</div>'}</div>`;
-}
-async function markNotificationRead(id){
-  try{
-    await api('/notifications/'+id+'/read',{method:'PATCH'});
-    notify('Notification marked as read');await notificationsPage();
-  }catch(e){notify(e.message,'error')}
+function empty(message) {
+  return `<div class="empty">${escapeHTML(message)}</div>`;
 }
 
-/* ---------- APPLICATION STARTUP ---------- */
+/* ================= CANDIDATE PROFILE LOOKUP ================= */
+async function getMyCandidate() {
+  if (currentCandidate) return currentCandidate;
 
-(async function startApp(){
-  setAuthMode('login');
-  if(token){
-    try{
-      await boot();
-    }catch(e){
-      console.error('Session initialization failed:',e);
-      $('authView').classList.remove('hidden');
-      $('appView').classList.add('hidden');
-      notify('Could not restore session: '+e.message,'error');
+  const data = await api("/candidates/");
+  const candidates = Array.isArray(data) ? data : data.candidates || [];
+
+  currentCandidate = candidates.find(candidate =>
+    Number(candidate.user_id) === Number(currentUser.id)
+  ) || null;
+
+  if (!currentCandidate) {
+    const result = await api("/candidates/", {
+      method: "POST",
+      body: JSON.stringify({
+        user_id: Number(currentUser.id),
+        experience_years: 0
+      })
+    });
+    currentCandidate = result.candidate;
+  }
+
+  return currentCandidate;
+}
+
+async function getCompletion(candidate) {
+  return api(`/candidates/${Number(candidate.id)}/completion`);
+}
+
+/* ================= DASHBOARD ================= */
+async function overviewPage() {
+  if (role === "HR") {
+    const jobData = await api("/jobs/?limit=100");
+    const jobs = jobData.jobs || [];
+    const appData = await api("/applications/");
+    const apps = Array.isArray(appData) ? appData : appData.applications || [];
+
+    $("stats").innerHTML =
+      stat("All jobs", jobs.length) +
+      stat("Active jobs", jobs.filter(j => j.status === "ACTIVE").length) +
+      stat("Applications", apps.length) +
+      stat("Under review", apps.filter(a => a.status === "UNDER_REVIEW").length);
+
+    $("panel").innerHTML = `
+      <div class="card">
+        <h2>Welcome, ${escapeHTML(currentUser.full_name || "HR")}</h2>
+        <p class="muted">Use the navigation tabs to publish vacancies and manage applications.</p>
+        <div class="actions">
+          <button onclick="go('jobs')">Manage jobs</button>
+          <button class="secondary" onclick="go('applications')">Review applications</button>
+          <button class="secondary" onclick="go('candidates')">Search candidates</button>
+        </div>
+      </div>
+      <div class="card">
+        <h2>Recent applications</h2>
+        ${apps.length ? `<div class="table-wrap"><table>
+          <thead><tr><th>ID</th><th>Job</th><th>Candidate ID</th><th>Status</th></tr></thead>
+          <tbody>${apps.slice(0, 10).map(a => `<tr>
+            <td>${escapeHTML(a.id)}</td>
+            <td>${escapeHTML(a.job_title || a.job_id)}</td>
+            <td>${escapeHTML(a.candidate_id)}</td>
+            <td><span class="pill ${escapeHTML(a.status)}">${escapeHTML(a.status)}</span></td>
+          </tr>`).join("")}</tbody></table></div>` : empty("No applications yet.")}
+      </div>`;
+    return;
+  }
+
+  const candidate = await getMyCandidate();
+  const completion = await getCompletion(candidate);
+  const data = await api("/applications/");
+  const apps = Array.isArray(data) ? data : data.applications || [];
+  const myApps = apps.filter(a =>
+    Number(a.candidate_id) === Number(candidate.id)
+  );
+
+  $("stats").innerHTML =
+    stat("My applications", myApps.length) +
+    stat("Profile completion", completion.profile_completion_percentage + "%") +
+    stat("Minimum required", completion.minimum_required_percentage + "%") +
+    stat("Can apply", completion.can_apply_for_jobs ? "Yes" : "Not yet");
+
+  $("panel").innerHTML = `
+    <div class="card">
+      <h2>Welcome, ${escapeHTML(currentUser.full_name || currentUser.email)}</h2>
+      <p>Your profile is ${escapeHTML(completion.profile_completion_percentage)}% complete.</p>
+      <div class="progress"><div style="width:${Math.min(100, Number(completion.profile_completion_percentage) || 0)}%"></div></div>
+      ${completion.can_apply_for_jobs
+        ? '<p class="muted">Your profile meets the application requirements.</p>'
+        : `<p class="muted">Complete your profile and upload your resume before applying. Missing: ${escapeHTML((completion.missing_required_fields || []).join(", ") || "profile details")}.</p>`}
+      <div class="actions">
+        <button onclick="go('profile')">Complete profile</button>
+        <button class="secondary" onclick="go('jobs')">Find jobs</button>
+      </div>
+    </div>
+    <div class="card">
+      <h2>My recent applications</h2>
+      ${myApps.length ? `<div class="list">${myApps.slice(0, 5).map(a => `
+        <div class="item">
+          <div class="item-head">
+            <b>${escapeHTML(a.job_title || "Job #" + a.job_id)}</b>
+            <span class="pill ${escapeHTML(a.status)}">${escapeHTML(a.status)}</span>
+          </div>
+          <p class="muted">Application ID: ${escapeHTML(a.id)}</p>
+          <button class="secondary" onclick="viewHistory(${Number(a.id)})">View history</button>
+        </div>`).join("")}</div>` : empty("You have not applied to any jobs yet.")}
+    </div>`;
+}
+
+/* ================= JOBS ================= */
+function jobCard(job) {
+  const id = Number(job.id);
+  const buttons = role === "HR"
+    ? `<button class="secondary" onclick="editJob(${id})">Edit</button>
+       ${job.status === "ACTIVE"
+         ? `<button class="secondary" onclick="setJobStatus(${id},'CLOSED')">Close</button>`
+         : `<button onclick="setJobStatus(${id},'ACTIVE')">Publish</button>`}
+       <button class="danger" onclick="deleteJob(${id})">Delete</button>`
+    : `<button onclick="applyForJob(${id})">Apply</button>`;
+
+  return `<div class="item job-item"
+      data-search="${escapeHTML([job.title, job.department, job.location, job.required_skills].join(" ").toLowerCase())}">
+    <div class="item-head">
+      <div>
+        <h3>${escapeHTML(job.title)}</h3>
+        <p class="muted">${escapeHTML(job.department || "General")} ·
+          ${escapeHTML(job.location || "Location not specified")} ·
+          ${escapeHTML(job.employment_type || "")}</p>
+      </div>
+      <span class="pill ${escapeHTML(job.status)}">${escapeHTML(job.status)}</span>
+    </div>
+    <p>${escapeHTML(job.description || "")}</p>
+    <p><b>Skills:</b> ${escapeHTML(job.required_skills || "Not specified")}</p>
+    <p class="muted">Experience: ${escapeHTML(job.experience_min ?? 0)}–${escapeHTML(job.experience_max ?? "Any")} years ·
+      Vacancies: ${escapeHTML(job.vacancies ?? 1)} ·
+      Deadline: ${escapeHTML(job.application_deadline || "Not specified")}</p>
+    <div class="actions">${buttons}</div>
+  </div>`;
+}
+
+async function jobsPage() {
+  const result = await api("/jobs/?limit=100");
+  currentJobs = result.jobs || [];
+
+  if (role !== "HR") {
+    currentJobs = currentJobs.filter(job => job.status === "ACTIVE");
+  }
+
+  if (role === "HR") {
+    $("panel").innerHTML = `
+      <div class="card">
+        <h2 id="jobFormTitle">Create a vacancy</h2>
+        <form id="jobForm" class="grid">
+          <div class="field"><label>Job title *</label><input id="j_title" required></div>
+          <div class="field"><label>Department</label><input id="j_department"></div>
+          <div class="field"><label>Location *</label><input id="j_location" required></div>
+          <div class="field"><label>Employment type</label>
+            <select id="j_type">
+              <option value="FULL_TIME">Full time</option>
+              <option value="PART_TIME">Part time</option>
+              <option value="CONTRACT">Contract</option>
+              <option value="INTERNSHIP">Internship</option>
+            </select>
+          </div>
+          <div class="field"><label>Minimum experience</label><input id="j_minexp" type="number" min="0" value="0"></div>
+          <div class="field"><label>Maximum experience</label><input id="j_maxexp" type="number" min="0"></div>
+          <div class="field"><label>Minimum salary</label><input id="j_minsalary" type="number" min="0"></div>
+          <div class="field"><label>Maximum salary</label><input id="j_maxsalary" type="number" min="0"></div>
+          <div class="field"><label>Vacancies</label><input id="j_vacancies" type="number" min="1" value="1"></div>
+          <div class="field"><label>Application deadline</label><input id="j_deadline" type="date"></div>
+          <div class="field wide"><label>Required skills</label><input id="j_skills" placeholder="Java, SQL, Python"></div>
+          <div class="field wide"><label>Description *</label><textarea id="j_description" required minlength="10"></textarea></div>
+          <div class="field wide"><label>Responsibilities</label><textarea id="j_responsibilities"></textarea></div>
+          <div class="field wide"><label>Qualifications</label><textarea id="j_qualifications"></textarea></div>
+          <div class="field"><label>Status</label>
+            <select id="j_status">
+              <option value="DRAFT">Draft</option>
+              <option value="ACTIVE">Active / publish</option>
+              <option value="CLOSED">Closed</option>
+            </select>
+          </div>
+          <div class="wide actions">
+            <button type="submit">Save vacancy</button>
+            <button type="button" class="ghost" onclick="resetJobForm()">Clear form</button>
+          </div>
+        </form>
+      </div>
+      <div class="card">
+        <h2>All vacancies</h2>
+        <input id="jobSearch" placeholder="Search by title, skills or location" oninput="filterJobs()">
+        <div id="jobList" class="list" style="margin-top:15px">
+          ${currentJobs.map(jobCard).join("") || empty("No jobs found.")}
+        </div>
+      </div>`;
+
+    $("jobForm").addEventListener("submit", saveJob);
+  } else {
+    $("panel").innerHTML = `
+      <div class="card">
+        <h2>Find a job</h2>
+        <input id="jobSearch" placeholder="Search by title, skills or location" oninput="filterJobs()">
+      </div>
+      <div id="jobList" class="list">
+        ${currentJobs.map(jobCard).join("") || '<div class="card">' + empty("No active jobs available.") + '</div>'}
+      </div>`;
+  }
+}
+
+function filterJobs() {
+  const query = value("jobSearch").toLowerCase();
+  document.querySelectorAll(".job-item").forEach(item => {
+    item.classList.toggle("hidden", !item.dataset.search.includes(query));
+  });
+}
+
+function jobPayload() {
+  const numberOrNull = id => value(id) === "" ? null : Number(value(id));
+  return {
+    title: value("j_title"),
+    department: value("j_department") || null,
+    location: value("j_location"),
+    employment_type: value("j_type"),
+    experience_min: numberOrNull("j_minexp") ?? 0,
+    experience_max: numberOrNull("j_maxexp"),
+    salary_min: numberOrNull("j_minsalary"),
+    salary_max: numberOrNull("j_maxsalary"),
+    vacancies: numberOrNull("j_vacancies") ?? 1,
+    application_deadline: value("j_deadline") || null,
+    required_skills: value("j_skills") || null,
+    description: value("j_description"),
+    responsibilities: value("j_responsibilities") || null,
+    qualifications: value("j_qualifications") || null,
+    status: value("j_status")
+  };
+}
+
+async function saveJob(event) {
+  event.preventDefault();
+  const form = $("jobForm");
+  const id = form.dataset.editId;
+
+  try {
+    await api(id ? `/jobs/${id}` : "/jobs/", {
+      method: id ? "PUT" : "POST",
+      body: JSON.stringify(jobPayload())
+    });
+    showMessage(id ? "Job updated successfully." : "Job created successfully.");
+    await jobsPage();
+  } catch (error) {
+    showMessage(errorMessage(error), "error");
+  }
+}
+
+function resetJobForm() {
+  $("jobForm").reset();
+  $("jobForm").dataset.editId = "";
+  $("jobFormTitle").textContent = "Create a vacancy";
+  $("j_minexp").value = "0";
+  $("j_vacancies").value = "1";
+}
+
+function editJob(id) {
+  const job = currentJobs.find(item => Number(item.id) === Number(id));
+  if (!job) return;
+
+  const fields = {
+    title: "j_title", department: "j_department", location: "j_location",
+    employment_type: "j_type", experience_min: "j_minexp",
+    experience_max: "j_maxexp", salary_min: "j_minsalary",
+    salary_max: "j_maxsalary", vacancies: "j_vacancies",
+    application_deadline: "j_deadline", required_skills: "j_skills",
+    description: "j_description", responsibilities: "j_responsibilities",
+    qualifications: "j_qualifications", status: "j_status"
+  };
+
+  for (const [field, elementId] of Object.entries(fields)) {
+    $(elementId).value = job[field] ?? "";
+  }
+
+  $("jobForm").dataset.editId = id;
+  $("jobFormTitle").textContent = "Edit vacancy #" + id;
+  window.scrollTo({ top: 0, behavior: "smooth" });
+}
+
+async function setJobStatus(id, status) {
+  try {
+    await api(`/jobs/${id}`, {
+      method: "PUT",
+      body: JSON.stringify({ status })
+    });
+    showMessage("Job status updated.");
+    await jobsPage();
+  } catch (error) {
+    showMessage(errorMessage(error), "error");
+  }
+}
+
+async function deleteJob(id) {
+  if (!confirm("Delete this vacancy? Jobs with applications may not be deletable.")) return;
+
+  try {
+    await api(`/jobs/${id}`, { method: "DELETE" });
+    showMessage("Job deleted.");
+    await jobsPage();
+  } catch (error) {
+    showMessage(errorMessage(error), "error");
+  }
+}
+
+/* ================= CANDIDATE PROFILE ================= */
+async function profilePage() {
+  const candidate = await getMyCandidate();
+  const completion = await getCompletion(candidate);
+
+  $("stats").innerHTML =
+    stat("Profile completion", completion.profile_completion_percentage + "%") +
+    stat("Required completion", completion.minimum_required_percentage + "%");
+
+  $("panel").innerHTML = `
+    <div class="card">
+      <h2>My profile</h2>
+      <p class="muted">Your profile completion score is calculated by the backend.</p>
+      <div class="progress"><div style="width:${Math.min(100, Number(completion.profile_completion_percentage) || 0)}%"></div></div>
+      <p><b>${escapeHTML(completion.profile_completion_percentage)}%</b> complete</p>
+      <p class="muted">Missing required fields: ${escapeHTML((completion.missing_required_fields || []).join(", ") || "None")}</p>
+    </div>
+
+    <div class="card">
+      <form id="profileForm" class="grid">
+        <div class="field"><label>Full name</label><input value="${escapeHTML(currentUser.full_name || "")}" disabled></div>
+        <div class="field"><label>Email</label><input value="${escapeHTML(currentUser.email || "")}" disabled></div>
+        <div class="field"><label>Phone *</label><input id="p_phone" value="${escapeHTML(candidate.phone || "")}"></div>
+        <div class="field"><label>Date of birth</label><input id="p_dob" type="date" value="${escapeHTML(candidate.date_of_birth || "")}"></div>
+        <div class="field"><label>Gender</label>
+          <select id="p_gender">
+            <option value="">Prefer not to say</option>
+            <option value="Male" ${candidate.gender === "Male" ? "selected" : ""}>Male</option>
+            <option value="Female" ${candidate.gender === "Female" ? "selected" : ""}>Female</option>
+            <option value="Other" ${candidate.gender === "Other" ? "selected" : ""}>Other</option>
+          </select>
+        </div>
+        <div class="field"><label>City</label><input id="p_city" value="${escapeHTML(candidate.city || "")}"></div>
+        <div class="field wide"><label>Address</label><textarea id="p_address">${escapeHTML(candidate.address || "")}</textarea></div>
+        <div class="field"><label>Qualification *</label><input id="p_qualification" value="${escapeHTML(candidate.qualification || "")}"></div>
+        <div class="field"><label>College</label><input id="p_college" value="${escapeHTML(candidate.college || "")}"></div>
+        <div class="field"><label>Graduation year</label><input id="p_year" type="number" min="1950" max="2100" value="${escapeHTML(candidate.graduation_year ?? "")}"></div>
+        <div class="field"><label>Experience in years *</label><input id="p_experience" type="number" min="0" step="0.1" value="${escapeHTML(candidate.experience_years ?? 0)}"></div>
+        <div class="field wide"><label>Skills *</label><textarea id="p_skills" placeholder="Java, Python, SQL, communication">${escapeHTML(candidate.skills || "")}</textarea></div>
+        <div class="field"><label>Previous company</label><input id="p_company" value="${escapeHTML(candidate.previous_company || "")}"></div>
+        <div class="field"><label>Previous job title</label><input id="p_jobtitle" value="${escapeHTML(candidate.previous_job_title || "")}"></div>
+        <div class="field wide"><label>Resume path (if already provided by your backend)</label><input id="p_resume" value="${escapeHTML(candidate.resume_path || "")}" placeholder="Leave unchanged if your resume upload endpoint manages this"></div>
+        <div class="field wide"><button type="submit">Save profile</button></div>
+      </form>
+      <hr>
+      <h3>Upload resume (PDF)</h3>
+      <p class="muted">This uses the resume endpoint registered in your application.</p>
+      <form id="resumeForm" class="grid">
+        <div class="field wide"><label>Select PDF file</label><input id="resumeFile" type="file" accept=".pdf,application/pdf" required></div>
+        <div class="field wide"><button type="submit">Upload resume</button></div>
+      </form>
+      <div class="actions"><button class="secondary" onclick="downloadMyResume()">Download my resume</button></div>
+    </div>`;
+
+  $("profileForm").addEventListener("submit", saveProfile);
+  $("resumeForm").addEventListener("submit", uploadResume);
+}
+
+async function saveProfile(event) {
+  event.preventDefault();
+
+  try {
+    const candidate = await getMyCandidate();
+    const year = value("p_year");
+    const experience = value("p_experience");
+
+    const body = {
+      phone: value("p_phone") || null,
+      date_of_birth: value("p_dob") || null,
+      gender: value("p_gender") || null,
+      city: value("p_city") || null,
+      address: value("p_address") || null,
+      qualification: value("p_qualification") || null,
+      college: value("p_college") || null,
+      graduation_year: year ? Number(year) : null,
+      experience_years: experience === "" ? null : Number(experience),
+      skills: value("p_skills") || null,
+      previous_company: value("p_company") || null,
+      previous_job_title: value("p_jobtitle") || null,
+      resume_path: value("p_resume") || null
+    };
+
+    await api(`/candidates/${Number(candidate.id)}`, {
+      method: "PUT",
+      body: JSON.stringify(body)
+    });
+
+    currentCandidate = null;
+    showMessage("Profile saved successfully.");
+    await profilePage();
+  } catch (error) {
+    showMessage(errorMessage(error), "error");
+  }
+}
+
+async function uploadResume(event) {
+  event.preventDefault();
+
+  const file = $("resumeFile").files[0];
+  if (!file) return showMessage("Choose a PDF file first.", "error");
+  if (file.type !== "application/pdf" && !file.name.toLowerCase().endsWith(".pdf")) {
+    return showMessage("Only PDF resumes are allowed.", "error");
+  }
+
+  try {
+    const formData = new FormData();
+    formData.append("file", file);
+
+    await api("/resumes/upload", {
+      method: "POST",
+      body: formData
+    });
+
+    currentCandidate = null;
+    showMessage("Resume uploaded. Refreshing profile...");
+    await profilePage();
+  } catch (error) {
+    showMessage(
+      errorMessage(error) + " Check your resumes router for the exact upload path and field name.",
+      "error"
+    );
+  }
+}
+
+async function downloadMyResume() {
+  try {
+    const response = await fetch(API + "/resumes/me", {
+      headers: { Authorization: "Bearer " + token }
+    });
+
+    if (!response.ok) {
+      let data = {};
+      try { data = await response.json(); } catch {}
+      throw new Error(data.detail || "Resume download failed.");
+    }
+
+    const blob = await response.blob();
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = "my_resume.pdf";
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+    URL.revokeObjectURL(url);
+  } catch (error) {
+    showMessage(errorMessage(error), "error");
+  }
+}
+
+/* ================= APPLICATIONS ================= */
+async function applicationsPage() {
+  const data = await api("/applications/");
+  const apps = Array.isArray(data) ? data : data.applications || [];
+  currentApplications = apps;
+
+  if (role === "HR") {
+    $("stats").innerHTML =
+      stat("Total applications", apps.length) +
+      stat("Applied", apps.filter(a => a.status === "APPLIED").length) +
+      stat("Shortlisted", apps.filter(a => a.status === "SHORTLISTED").length) +
+      stat("Hired", apps.filter(a => a.status === "HIRED").length);
+
+    $("panel").innerHTML = `
+      <div class="card">
+        <h2>Application management</h2>
+        <p class="muted">Choose a permitted status transition for each application.</p>
+        ${apps.length ? `<div class="table-wrap"><table>
+          <thead><tr><th>Application</th><th>Job</th><th>Candidate</th><th>Current status</th><th>Update status</th><th>History</th></tr></thead>
+          <tbody>${apps.map(a => `<tr>
+            <td>#${escapeHTML(a.id)}</td>
+            <td>${escapeHTML(a.job_title || a.job_id)}</td>
+            <td>${escapeHTML(a.candidate_name || a.candidate_id)}</td>
+            <td><span class="pill ${escapeHTML(a.status)}">${escapeHTML(a.status)}</span></td>
+            <td>
+              <select id="status_${Number(a.id)}">
+                ${["UNDER_REVIEW","SHORTLISTED","INTERVIEW_SCHEDULED","SELECTED","HIRED","REJECTED","WITHDRAWN"].map(s =>
+                  `<option value="${s}" ${a.status === s ? "selected" : ""}>${s.replaceAll("_"," ")}</option>`
+                ).join("")}
+              </select>
+              <button style="margin-top:6px" onclick="updateApplicationStatus(${Number(a.id)})">Save</button>
+            </td>
+            <td><button class="secondary" onclick="viewHistory(${Number(a.id)})">View</button></td>
+          </tr>`).join("")}</tbody>
+        </table></div>` : empty("No applications found.")}
+      </div>`;
+  } else {
+    const candidate = await getMyCandidate();
+    const mine = apps.filter(a =>
+      Number(a.candidate_id) === Number(candidate.id)
+    );
+
+    $("stats").innerHTML =
+      stat("My applications", mine.length) +
+      stat("Under review", mine.filter(a => a.status === "UNDER_REVIEW").length) +
+      stat("Shortlisted", mine.filter(a => a.status === "SHORTLISTED").length) +
+      stat("Hired", mine.filter(a => a.status === "HIRED").length);
+
+    $("panel").innerHTML = `
+      <div class="card">
+        <h2>My applications</h2>
+        ${mine.length ? `<div class="list">${mine.map(a => `
+          <div class="item">
+            <div class="item-head">
+              <h3>${escapeHTML(a.job_title || "Job #" + a.job_id)}</h3>
+              <span class="pill ${escapeHTML(a.status)}">${escapeHTML(a.status)}</span>
+            </div>
+            <p class="muted">Application ID: ${escapeHTML(a.id)}</p>
+            <div class="actions">
+              <button class="secondary" onclick="viewHistory(${Number(a.id)})">View history</button>
+              ${!["WITHDRAWN","REJECTED","HIRED"].includes(a.status)
+                ? `<button class="danger" onclick="withdrawApplication(${Number(a.id)})">Withdraw</button>`
+                : ""}
+            </div>
+          </div>`).join("")}</div>` : empty("You have not applied to any jobs yet.")}
+      </div>`;
+  }
+}
+
+async function applyForJob(jobId) {
+  try {
+    const candidate = await getMyCandidate();
+    const completion = await getCompletion(candidate);
+
+    if (!completion.can_apply_for_jobs) {
+      showMessage(
+        `Complete your profile first. Completion: ${completion.profile_completion_percentage}%. Missing: ${(completion.missing_required_fields || []).join(", ")}`,
+        "error"
+      );
+      await go("profile");
+      return;
+    }
+
+    const coverLetter = prompt("Enter a short cover letter (optional):") || "";
+
+    await api("/applications/", {
+      method: "POST",
+      body: JSON.stringify({
+        job_id: Number(jobId),
+        cover_letter: coverLetter || null
+      })
+    });
+
+    showMessage("Application submitted successfully.");
+    await go("applications");
+  } catch (error) {
+    showMessage(errorMessage(error), "error");
+  }
+}
+
+async function withdrawApplication(id) {
+  if (!confirm("Are you sure you want to withdraw this application?")) return;
+
+  try {
+    await api(`/applications/${id}/withdraw`, { method: "POST" });
+    showMessage("Application withdrawn.");
+    await applicationsPage();
+  } catch (error) {
+    showMessage(errorMessage(error), "error");
+  }
+}
+
+async function updateApplicationStatus(id) {
+  const newStatus = $("status_" + id).value;
+  const remarks = prompt("Remarks (optional):") || "";
+
+  try {
+    // Important: the backend expects new_status, not status.
+    await api(`/applications/${id}/status`, {
+      method: "PATCH",
+      body: JSON.stringify({
+        new_status: newStatus,
+        remarks: remarks || null
+      })
+    });
+
+    showMessage("Application status updated.");
+    await applicationsPage();
+  } catch (error) {
+    showMessage(errorMessage(error), "error");
+  }
+}
+
+async function viewHistory(id) {
+  try {
+    const data = await api(`/applications/${id}/history`);
+    const history = Array.isArray(data) ? data : data.history || data.items || [];
+
+    const lines = history.map(item =>
+      `${item.old_status || "START"} → ${item.new_status || item.status || "Updated"}`
+      + (item.remarks ? `\nRemarks: ${item.remarks}` : "")
+      + (item.changed_at ? `\nDate: ${item.changed_at}` : "")
+    );
+
+    alert(lines.length ? lines.join("\n\n") : "No status history found.");
+  } catch (error) {
+    showMessage(errorMessage(error), "error");
+  }
+}
+
+/* ================= HR CANDIDATE SEARCH ================= */
+async function candidatesPage() {
+  const result = await api("/candidates/hr/search?page=1&page_size=100");
+  const candidates = result.candidates || [];
+
+  $("stats").innerHTML =
+    stat("Matching candidates", result.total_candidates ?? candidates.length);
+
+  $("panel").innerHTML = `
+    <div class="card">
+      <h2>Search candidates</h2>
+      <form id="candidateSearch" class="grid">
+        <div class="field"><label>Skills</label><input id="c_skills" placeholder="Java, SQL"></div>
+        <div class="field"><label>Qualification</label><input id="c_qualification" placeholder="BSc Computer Science"></div>
+        <div class="field"><label>City / location</label><input id="c_location" placeholder="Chennai"></div>
+        <div class="field"><label>Job title</label><input id="c_jobrole" placeholder="Software Developer"></div>
+        <div class="field"><label>Minimum experience</label><input id="c_minexp" type="number" min="0"></div>
+        <div class="field"><label>Maximum experience</label><input id="c_maxexp" type="number" min="0"></div>
+        <div class="field"><label>Application status</label>
+          <select id="c_status">
+            <option value="">Any status</option>
+            ${["APPLIED","UNDER_REVIEW","SHORTLISTED","INTERVIEW_SCHEDULED","SELECTED","HIRED","REJECTED","WITHDRAWN"].map(s => `<option>${s}</option>`).join("")}
+          </select>
+        </div>
+        <div class="field"><label>Minimum profile completion</label><input id="c_completion" type="number" min="0" max="100" value="0"></div>
+        <div class="wide actions">
+          <button type="submit">Search</button>
+          <button type="button" class="ghost" onclick="go('candidates')">Reset</button>
+        </div>
+      </form>
+    </div>
+    <div class="card">
+      <h2>Candidate results</h2>
+      <div id="candidateResults">${candidateTable(candidates)}</div>
+    </div>`;
+
+  $("candidateSearch").addEventListener("submit", searchCandidates);
+}
+
+function candidateTable(candidates) {
+  if (!candidates.length) return empty("No candidates match your search.");
+
+  return `<div class="table-wrap"><table>
+    <thead><tr><th>Name / Contact</th><th>Qualification</th><th>Skills</th><th>Experience</th><th>Profile</th></tr></thead>
+    <tbody>${candidates.map(c => `<tr>
+      <td><b>${escapeHTML(c.full_name)}</b><br>${escapeHTML(c.email)}<br>${escapeHTML(c.phone || "")}</td>
+      <td>${escapeHTML(c.qualification || "")}<br>${escapeHTML(c.city || "")}</td>
+      <td>${escapeHTML(c.skills || "")}</td>
+      <td>${escapeHTML(c.experience_years ?? 0)} years</td>
+      <td>${escapeHTML(c.profile_completion_percentage ?? 0)}%</td>
+    </tr>`).join("")}</tbody>
+  </table></div>`;
+}
+
+async function searchCandidates(event) {
+  event.preventDefault();
+
+  const params = new URLSearchParams({
+    page: "1",
+    page_size: "100"
+  });
+
+  const fields = {
+    skills: "c_skills",
+    qualification: "c_qualification",
+    location: "c_location",
+    job_role: "c_jobrole",
+    min_experience: "c_minexp",
+    max_experience: "c_maxexp",
+    application_status: "c_status",
+    min_completion: "c_completion"
+  };
+
+  for (const [parameter, elementId] of Object.entries(fields)) {
+    const fieldValue = value(elementId);
+    if (fieldValue !== "") params.set(parameter, fieldValue);
+  }
+
+  try {
+    const result = await api("/candidates/hr/search?" + params.toString());
+    $("candidateResults").innerHTML = candidateTable(result.candidates || []);
+    $("stats").innerHTML = stat("Matching candidates", result.total_candidates ?? 0);
+  } catch (error) {
+    showMessage(errorMessage(error), "error");
+  }
+}
+
+/* ================= START ================= */
+window.addEventListener("DOMContentLoaded", async () => {
+  setAuthMode("login");
+
+  if (token) {
+    try {
+      await startApp();
+    } catch (error) {
+      logout();
+      showMessage(errorMessage(error), "error");
     }
   }
-})();
+});
 </script>
 </body>
 </html>

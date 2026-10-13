@@ -8,12 +8,18 @@ from sqlalchemy.orm import Session
 
 from Backend.app.database import get_db
 from Backend.app.models.user import User
+import os
+from dotenv import load_dotenv
 
+load_dotenv()
 
-# IMPORTANT:
-# Keep this secret unchanged after setting it.
-# For production, load it from an environment variable.
-SECRET_KEY = "replace-this-with-a-long-random-secret-key"
+SECRET_KEY = os.getenv("SECRET_KEY")
+
+if not SECRET_KEY:
+    raise RuntimeError(
+        "SECRET_KEY is missing. Add it to your .env file."
+    )
+
 ALGORITHM = "HS256"
 ACCESS_TOKEN_EXPIRE_MINUTES = 60
 
